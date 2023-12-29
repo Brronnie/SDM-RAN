@@ -1,4 +1,4 @@
-# SDM-RAN-AAAI
+# SDM-RAN
 ![Examples](assets/examples.png)
 This repository contains the demos for paper **Detect an Object At Once without Fine-tuning**.
 ## Abstract
