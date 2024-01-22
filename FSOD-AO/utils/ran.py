@@ -58,5 +58,3 @@ class LossFunc(nn.Module):
     def forward(self, t1, t2):
         loss1 = nn.MSELoss(reduction='sum')(t1, t2)
         return loss1
-
-

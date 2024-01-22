@@ -10,6 +10,7 @@ from PIL import Image
 from utils.ran import self_model
 import matplotlib.patches as patches
 
+
 MAPS = ['map3', 'map4']
 Scales = [0.9, 1.1]
 FEATURE_SHAPE = 24
@@ -31,6 +32,7 @@ IM_NORM_STD = [0.229, 0.224, 0.225]
 
 def get_features(feature_model, image, target_boxes, feat_map_keys=['map3', 'map4'],
                  exemplar_scales=[0.9, 1.1]):
+
     N, M = image.shape[0], target_boxes.shape[2]
 
     # Getting features for the example image N * C * H * W
@@ -211,22 +213,25 @@ def detect_target(feature_model, image, input_features, feat_map_keys=['map3', '
     return All_feat
 
 
-def labelled_boxes(img_name, img_info_val='./data/annotations/coco_val.npy',
-                   img_info_train='./data/annotations/coco_train.npy'):
+def labelled_boxes(img_name, img_info_val='./data/annotations/voc_val.npy',
+                   img_info_train='./data/annotations/voc_train.npy'):
     img_in = np.load(img_info_val, allow_pickle=True)
 
     for info in img_in:
-        if info[0].split('.')[0] == img_name:
-            return info[2]
+        if info['image_name'].split('.')[0] == img_name:
+            for key in info.keys():
+                if(isinstance(key, int)):
+                    return info[key]
 
     img_in = np.load(img_info_train, allow_pickle=True)
 
     for info in img_in:
-        if info[0].split('.')[0] == img_name:
-            return info[2]
+        if info['image_name'].split('.')[0] == img_name:
+            for key in info.keys():
+                if(isinstance(key, int)):
+                    return info[key]
 
     print("Not find target bounding boxes.")
-
 
 def load_features(load_path):
     with torch.no_grad():
@@ -769,8 +774,8 @@ def siamese_rects(img, density_list, ref_img, rects, coco, target_file, name, re
     # img_save = cv2.cvtColor(img_result, cv2.COLOR_RGB2BGR)
     # cv2.imwrite(result, img_save)
 
-    if PRINT:
-        plt.show()
+    # if PRINT:
+    #     plt.show()
 
     return pr_list
 

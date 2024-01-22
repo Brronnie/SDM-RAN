@@ -48,7 +48,7 @@ class CountRegressor(nn.Module):
         if num_sample == 1:
             output = self.regressor(im.squeeze(0))
             if self.pool == 'mean':
-                output = torch.mean(output, dim=(0),keepdim=True)  
+                output = torch.mean(output, dim=(0),keepdim=True)
                 return output
             elif self.pool == 'max':
                 output, _ = torch.max(output, 0,keepdim=True)
@@ -73,7 +73,7 @@ def weights_normal_init(model, dev=0.01):
             weights_normal_init(m, dev)
     else:
         for m in model.modules():
-            if isinstance(m, nn.Conv2d):                
+            if isinstance(m, nn.Conv2d):
                 m.weight.data.normal_(0.0, dev)
                 if m.bias is not None:
                     m.bias.data.fill_(0.0)
@@ -86,5 +86,3 @@ def weights_xavier_init(m):
         torch.nn.init.xavier_normal_(m.weight, gain=nn.init.calculate_gain('relu'))
         if m.bias is not None:
             torch.nn.init.zeros_(m.bias)
-            
-            
